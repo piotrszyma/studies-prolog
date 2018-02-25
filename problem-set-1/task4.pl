@@ -9,13 +9,13 @@ le(3, 4).
 le(4, 5).
 le(5, 6).
 
-le_rec(X, X) :- true.
-le_rec(X, Y) :- le(X, Y).
-le_rec(X, Y) :- \+ le_rec(Y, X).
+valid(X) :- le(_, X); le(X, _).
+
 le_rec(X, Y) :- le(X, Z), le_rec(Z, Y).
+le_rec(X, X) :- true, valid(X).
 
-max(X) :- \+ (le_rec(X, Y), X =\= Y).
-min(X) :- \+ (le_rec(Y, X), X =\= Y).
+max(X) :- le_rec(X, _), \+ (le_rec(X, Y), X =\= Y).
+min(X) :- le_rec(_, X), \+ (le_rec(Y, X), X =\= Y).
 
-biggest(X) :- max(X).
-smallest(X) :- min(X).
+biggest(X) :- max(X), \+ (max(Y), X =\= Y).
+smallest(X) :- min(X), \+ (min(Y), X =\= Y).
