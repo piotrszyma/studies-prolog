@@ -16,3 +16,4 @@ left_of_rec(X, Y) :- left_of(C, Y), left_of_rec(X, C).
 % ponizej X coś jest
 % ponizej Y niczego nie ma
 higher(X, Y) :- (\+ below(_, Y)), below(_, X).
+
