@@ -8,3 +8,4 @@ twice(X, [X, X]) :- true.
 
 twice(X, [H|T]) :- once(X, H), once(X, T), !.
 twice(X, [H|T]) :- \+ once(X, H), twice(X, T).
+  
