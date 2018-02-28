@@ -1,4 +1,5 @@
 once(X, X) :- true.
+
 once(X, [H|T]) :- once(X, H), \+ once(X, T), !.
 once(X, [H|T]) :- \+ once(X, H), once(X, T).
 
