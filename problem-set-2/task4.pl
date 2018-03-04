@@ -1,15 +1,14 @@
 got(josh, car).
 
-gives([[]], josh, car, steve).
-gives([[[[]]]], steve, car, josh).
+gives([[0]], josh, car, steve).
 
-got([], WHO, WHAT) :- 
-  got(WHO, WHAT).
-
-got([EARLIER], WHO, WHAT) :-
-  \+ gives(EARLIER, WHO, WHAT, _),
-  got(EARLIER, WHO, WHAT), !.
+got([0], WHO, WHAT) :- 
+    got(WHO, WHAT).
 
 got([EARLIER], WHO, WHAT) :-
-  gives(EARLIER, _, WHAT, WHO),
-  \+ got(EARLIER, WHO, WHAT).
+  gives(EARLIER, GIVER, WHAT, WHO),
+  got(EARLIER, GIVER, WHAT).
+
+got([EARLIER], WHO, WHAT) :-
+  got(EARLIER, WHO, WHAT),
+  \+ gives(EARLIER, WHO, WHAT, _).
