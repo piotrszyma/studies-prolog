@@ -11,9 +11,5 @@ got([EARLIER], WHO, WHAT) :-
   got(EARLIER, GIVER, WHAT).
 
 got([EARLIER], WHO, WHAT) :-
-  (
-    \+ gives(EARLIER, WHO, WHAT, _),
-    got(EARLIER, WHO, WHAT)
-  ).
-% got(MOMENT, WHO, WHAT) :-
-%   gives(MOMENT, WHO, WHAT, _).
+  \+ gives(EARLIER, WHO, WHAT, _),
+  got(EARLIER, WHO, WHAT).
