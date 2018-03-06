@@ -1,43 +1,47 @@
-lista(N, X) :-
-  %       N  C  P   NP  X   A
-  lista_n(N, 1, [0], [0], X, [1]),
-  valid(X).
+lista(N, XL) :-
+  %       N    C   P   NP   X  
+  lista_n(N, [1], [0], [0],  XL).
 
-lista_n(N, C, _, _, [], _) :-
-  C > 2 * N, !.
+lista_n(N, [C|_], _, _, []) :-
+  C is 2 * N + 1, !.
 
-lista_n(N, C, P, NP, [X|T], A) :-
-  member(X, A),
-  X =< C,
+lista_n(N, CL, P, NP, [X|XT]) :-
+  [PH|_] = P,
+  [C|_] = CL,
+  C =< N,
+  member(X, CL),
+  X =< N,
+  X =< PH + 1,
+  \+ member(X, NP),
+  C1 is C + 1,
+  lista_p(N, [C1|CL], P, [X|NP], XT).
+
+lista_n(N, CL, P, NP, [X|XT]) :-
+  [C|_] = CL,
+  C > N,
+  member(X, CL),
   X =< N,
   \+ member(X, NP),
   C1 is C + 1,
-  lista_p(N, C1, P, [X|NP], T, [C1|A]).
+  lista_p(N, [C1|CL], P, [X|NP], XT).
 
-lista_p(N, C, P, NP, [X|T], A) :-
-  member(X, A),
-  X =< C,
+
+lista_p(N, CL, P, NP, [X|XT]) :-
+  [PH|_] = NP,
+  [C|_] = CL,
+  C =< N,
+  member(X, CL),
+  X =< PH + 1,
   X =< N,
   \+ member(X, P),
   C1 is C + 1,
-  lista_n(N, C1, [X|P], NP, T, [C1|A]).
+  lista_n(N, [C1|CL], [X|P], NP, XT).
 
-valid(L) :-
-  append([H|T], B, L),
-  length([H|T], N),
-  length(B, N),
-  increasing(T, 1).
-
-increasing([X], Y) :-
-  X is Y + 1, !.
-
-increasing([X], Y) :-
-  X is Y, !.
-
-increasing([H|T], N) :-
-  H is N + 1,
-  increasing(T, H).
-
-increasing([H|T], N) :-
-  H is N,
-  increasing(T, N).
+lista_p(N, CL, P, NP, [X|XT]) :-
+  [C|_] = CL,
+  C > N,
+  member(X, CL),
+  X =< N,
+  \+ member(X, P),
+  C1 is C + 1,
+  lista_n(N, [C1|CL], [X|P], NP, XT).
