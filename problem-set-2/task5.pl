@@ -1,51 +1,50 @@
 lista(N, XL) :-
   %       N    C   P   NP   X  
-  lista_n(N, [1], [0], [0],  XL).
+  lista_n(N, [1], [0], [0],  XL, [0]).
 
-lista_n(N, [C|_], _, _, []) :-
+lista_n(N, [C|_], _, _, [], _) :-
   C is 2 * N + 1, !.
 
-lista_n(N, CL, P, NP, [X|XT]) :-
+lista_n(N, CL, P, NP, [X|XT], ADDED) :-
   [C|_] = CL,
-  [F|_] = P,
   member(X, CL),
   X =< N,
   \+ member(X, NP),
   C1 is C + 1,
   (
+    % if X < I => it's not its first occurrence
     (
-      C =< N,
-      (
-          X is F + 1;
-          X is F
-        )
+      \+ member(X, P), % first occurrence 
+      [BIGGEST|_] = ADDED,
+      X is BIGGEST + 1,
+      ADDED1 = [X|ADDED]
     );
     (
-      C > N
+      member(X, P), % second occurrence
+      ADDED1 = ADDED
     )
   ),
-  lista_p(N, [C1|CL], P, [X|NP], XT).
+  lista_p(N, [C1|CL], P, [X|NP], XT, ADDED1).
 
-lista_p(N, CL, P, NP, [X|XT]) :-
+lista_p(N, CL, P, NP, [X|XT], ADDED) :-
   [C|_] = CL,
-  [F|_] = NP,
   member(X, CL),
   X =< N,
   \+ member(X, P),
   C1 is C + 1,
   (
     (
-      C =< N,
-      (
-        X is F + 1;
-        X is F
-      )
+      \+ member(X, NP), % first occurrence 
+      [BIGGEST|_] = ADDED,
+      X is BIGGEST + 1,
+      ADDED1 = [X|ADDED]
     );
     (
-      C > N
+      member(X, NP), % second occurrence
+      ADDED1 = ADDED      
     )
   ),
-  lista_n(N, [C1|CL], [X|P], NP, XT).
+  lista_n(N, [C1|CL], [X|P], NP, XT, ADDED1).
 
 % jeśli coś się pojawia pierwszy raz
 % to nie ma w tailu 
