@@ -8,7 +8,7 @@ lista_n(N, [C|_], _, _, [], _) :-
 
 lista_n(N, CL, P, NP, [X|XT], MAX) :-
   [C|_] = CL,       % extract counter
-  member(X, CL),    % range of X
+  member(X, CL),    % range of X (based on counter)
   X =< N,           % limit X
   \+ member(X, NP), % cannot occur on neg pos twice
   C1 is C + 1,      % increase counter
@@ -19,7 +19,7 @@ lista_n(N, CL, P, NP, [X|XT], MAX) :-
 
 lista_n(N, CL, P, NP, [X|XT], MAX) :-
   [C|_] = CL,       % extract counter
-  member(X, CL),    % range of X
+  member(X, CL),    % range of X (based on counter)
   X =< N,           % limit X
   \+ member(X, NP), % cannot occur on posit pos twice
   C1 is C + 1,      % increment counter
