@@ -1,7 +1,6 @@
 got(josh, car).
 
 gives([[0]], josh, car, steve).
-% gives([[[0]]], steve, car, john).
 
 got([0], WHO, WHAT) :- 
     got(WHO, WHAT).
