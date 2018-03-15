@@ -1,11 +1,9 @@
-once(X, X) :- true.
+once(X, [X]).
 
-once(X, [H|T]) :- once(X, H), \+ once(X, T), !.
-once(X, [H|T]) :- \+ once(X, H), once(X, T).
+once(X, [H|T]) :- once(X, [H]), \+ once(X, T), !.
+once(X, [H|T]) :- \+ once(X, [H]), once(X, T).
 
-twice(X, X) :- false.
-twice(X, [X, X]) :- true.
+twice(X, [X, X]).
 
-twice(X, [H|T]) :- once(X, H), once(X, T), !.
-twice(X, [H|T]) :- \+ once(X, H), twice(X, T).
-  
+twice(X, [X|T]) :- once(X, T), !.
+twice(X, [H|T]) :- \+ once(X, [H]), twice(X, T).

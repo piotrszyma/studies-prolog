@@ -12,5 +12,4 @@ last([_|T], E) :- last(T, E).
 middle([E], E) :- true.
 middle([_|T], E) :- 
   append(X, [L], T),
-  middle(X, E), 
-  last(T, L).
+  middle(X, E).
