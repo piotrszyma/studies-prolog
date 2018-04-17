@@ -5,8 +5,9 @@ read_from_stream(InputStream, []) :-
 
 read_from_stream(InputStream, [CharsHead|CharsTail]) :-
   \+ at_end_of_stream(InputStream),
-  get_code(InputStream, CharInt),
-  tokenizer(InputStream, CharsTail).
+  get_code(InputStream, CharsCode),
+  atom_codes(CharsHead, [CharsCode]),
+  read_from_stream(InputStream, CharsTail).
 
 
 % key(SŁOWO_KLUCZOWE) read, write, if, then, else, fi, while, do, od, and, or, mod;
