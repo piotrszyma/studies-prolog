@@ -2,8 +2,8 @@ operation(X, OP1, OP2) :- X = OP1 + OP2.
 operation(X, OP1, OP2) :- X = OP1 - OP2.
 operation(X, OP1, OP2) :- X = OP1 * OP2.
 operation(X, OP1, OP2) :- 
-  \+ (0 =:= OP2), 
-  X = OP1 / OP2.
+  0 =\= OP2, 
+  X = OP1 / OP2.	
 
 build([X], X).
 build(L, X) :-
