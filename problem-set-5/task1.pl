@@ -26,7 +26,7 @@ token('>',  sep('>')).
 token('=<', sep('=<')).
 token('>=', sep('>=')).
 token(':=', sep(':=')).
-token('=', sep('=')).
+token('=',  sep('=')).
 token('/=', sep('/=')).
 
 token(TokenString, int(Token)) :-

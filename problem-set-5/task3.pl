@@ -96,10 +96,7 @@ browse(Left, Current, Right, Parents) :-
     nl,
     command(Command, Left, Current, Right, Parents).
 
-
-% ================================
-% =========== Browse =============
-% ================================
+% ================ ~ ================
 
 test :-
   start_browse(f1(f2(a2, a3), a1, f3(a4))).
