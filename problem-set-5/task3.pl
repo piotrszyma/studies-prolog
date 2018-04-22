@@ -5,42 +5,42 @@ start_browse(Current) :-
   nl,
   read(Command),
   nl,
-  command(Command, [], Current, [], [], []).
+  command(Command, [], Current, [], []).
 
 % ================================
 % ==========  Next  ==============
 % ================================
 
-command(n, Left, Current, [RightHead|RightTail], CurrentLevel, Parents) :-
+command(n, Left, Current, [RightHead|RightTail], Parents) :-
   write(RightHead),
   nl,  
-  browse([Current|Left], RightHead, RightTail, CurrentLevel, Parents).
+  browse([Current|Left], RightHead, RightTail, Parents).
 
-command(n, Left, Current, [], CurrentLevel, Parents) :-
+command(n, Left, Current, [], Parents) :-
   write(Current),
   nl,  
-  browse(Left, Current, [], CurrentLevel, Parents).
+  browse(Left, Current, [], Parents).
 
 % ================================
 % ========== Previous ============
 % ================================
 
-command(p, [LeftHead|LeftTail], Current, Right, CurrentLevel, Parents) :-
+command(p, [LeftHead|LeftTail], Current, Right, Parents) :-
   write(LeftHead),
   nl,
-  browse(LeftTail, LeftTail, [Current|Right], CurrentLevel, Parents).
+  browse(LeftTail, LeftTail, [Current|Right], Parents).
 
-command(p, [], Current, Right, CurrentLevel, Parents) :-
+command(p, [], Current, Right, Parents) :-
   write(Current),
   nl,  
-  browse([], Current, Right, CurrentLevel, Parents).  
+  browse([], Current, Right, Parents).  
 
 % ================================
 % ==========  Insert  ============
 % ================================
 
 % Parents <- tuple of (Left, Current, Right)
-command(i, Left, Current, Right, CurrentLevel, Parents) :-
+command(i, Left, Current, Right, Parents) :-
   Current =.. CurrentUnpacked,
   length(CurrentUnpacked, Length),
   Length > 1,
@@ -48,39 +48,39 @@ command(i, Left, Current, Right, CurrentLevel, Parents) :-
   [Left, Current, Right] = ThisParent,
   write(NewCurrent),
   nl,
-  browse([], NewCurrent, Rest, CurrentLevel, [ThisParent|Parents]).
+  browse([], NewCurrent, Rest, [ThisParent|Parents]).
 
-command(i, Left, Current, Right, CurrentLevel, Parents) :-
+command(i, Left, Current, Right, Parents) :-
   Current =.. CurrentUnpacked,
   length(CurrentUnpacked, Length),
   Length =:= 1,
   write(Current),
   nl,  
-  browse(Left, Current, Right, CurrentLevel, Parents).
+  browse(Left, Current, Right, Parents).
 
 % ================================
 % ===========  Out   =============
 % ================================
 
-command(o, Left, Current, Right, CurrentLevel, [Parent|RestParents]) :-
+command(o, Left, Current, Right, [Parent|RestParents]) :-
     [NewLeft|[NewCurrent|[NewRight]]] = Parent,
     write(NewCurrent),
     nl,    
-    browse(NewLeft, NewCurrent, NewRight, CurrentLevel, RestParents).
+    browse(NewLeft, NewCurrent, NewRight, RestParents).
 
-command(o, _, _, _, _, []) :-
+command(o, _, _, _, []) :-
   true.
 
 % ================================
 % =========== Browse =============
 % ================================
 
-browse(Left, Current, Right, CurrentLevel, Parents) :-
+browse(Left, Current, Right, Parents) :-
     write("Command: "),
     nl,
     read(Command),
     nl,
-    command(Command, Left, Current, Right, CurrentLevel, Parents).
+    command(Command, Left, Current, Right, Parents).
 
 test :-
   start_browse(f1(f2(a2, a3), a1, f3(a4))).
