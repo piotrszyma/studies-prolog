@@ -91,4 +91,5 @@ read_from_stream(InputStream, [CharsHead|CharsTail]) :-
 test :-
     open('read.prog', read, X), 
     scanner(X, Y),
-    write(Y).
+    write(Y),
+    close(X).
