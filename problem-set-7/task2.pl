@@ -1,8 +1,8 @@
-finish([]) :- true.
+%   finish([]) :- true.
 
-head([Head|Tail], Head, Tail).
+%   head([Head|Tail], Head, Tail).
 
-attach(Element, List, [Element|List]).
+%   attach(Element, List, [Element|List]).
 
 split(In, FirstList, SecondList) :-
   split_first(In, FirstList, SecondList).
@@ -20,3 +20,4 @@ split_second(In, FirstList, SecondList) :-
   split_first(InTail, FirstList, SecondList_).
 
 split_second([], [], []).
+
