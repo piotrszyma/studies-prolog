@@ -152,7 +152,7 @@ producent(0, ID) :-
 	thread_signal(ID, thread_exit(finito)).
 producent(N, ID) :-
 	N > 0,
-	assertz(produkt(N)),
+	assert(produkt(N)),
 	format('producent: wyprodukowalem ~w~n', [N]),
 	N1 is N-1,
 	producent(N1, ID).
@@ -167,8 +167,8 @@ konsument :-
 % MUTEXy
 %
 ex5a(N) :-
-	thread_create(p(N, 'a'), ID1),
-	thread_create(p(N, 'b'), ID2),
+	thread_create(p(N, 'a'), ID1, []),
+	thread_create(p(N, 'b'), ID2, []),
 	thread_join(ID1, _),
 	thread_join(ID2, _).
 
@@ -181,8 +181,8 @@ p(N, CH) :-
 
 ex5b(N) :-
 	mutex_create(M),
-	thread_create(p(N, 'a', M), ID1),
-	thread_create(p(N, 'b', M), ID2),
+	thread_create(p(N, 'a', M), ID1, []),
+	thread_create(p(N, 'b', M), ID2, []),
 	thread_join(ID1, _),
 	thread_join(ID2, _).
 
@@ -198,7 +198,7 @@ p(N, CH, M) :-
 
 ex5c(N) :-
 	mutex_create(M),
-	thread_create(p2(N, 'a', M), ID1),
+	thread_create(p2(N, 'a', M), ID1, []),
 	thread_create(p2(N, 'b', M), ID2),
 	thread_join(ID1, _),
 	thread_join(ID2, _).
