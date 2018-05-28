@@ -2,9 +2,9 @@
 split(In, FirstList, SecondList) :-
   split_first(In, FirstList, SecondList).
 
+split_first([], [], []) :- true, !.
 
 split_first(In, FirstList, SecondList) :-
-  In \== [],
   freeze(In,
     (
       head(In, InHead, InTail),
@@ -13,10 +13,8 @@ split_first(In, FirstList, SecondList) :-
     )
   ), !.
 
-split_first([], [], []).
 
 split_second(In, FirstList, SecondList) :-
-  In \== [],
   freeze(In,
     (
       head(In, InHead, InTail),
@@ -30,25 +28,31 @@ split_second([], [], []).
 
 % Merge sort
 
+merge_sort([], []). 
 
-merge_sort([], []) :- 
-  true, !. 
-
-merge_sort([Output|[]], [Output|[]]) :- 
-  true, !. 
-
-merge_sort([First |[Second|[]]], Sorted) :-
-  First > Second ->
-    ( 
-      Sorted = [Second, First], ! 
-    )
-    ;
+merge_sort(List, Sorted) :-
+  freeze(List, 
     (
-      Sorted = [First, Second], !
-    ).
+      List = [First|[Second|[]]],
+      First > Second ->
+            ( 
+              Sorted = [Second, First] 
+            )
+            ;
+            (
+              Sorted = [First, Second] 
+            )
+    )
+  ).
 
-merge_sort([F|[S|[T|R]]], Sorted) :-
-  split([F|[S|[T|R]]], Left, Right),
-  merge_sort(Left, SortedLeft),
-  merge_sort(Right, SortedRight),
-  merge_(SortedLeft, SortedRight, Sorted), !. 
+merge_sort(List, Sorted) :- 
+  freeze(List,
+    (
+      length(List, X),
+      X > 2,
+      split(List, Left, Right),
+      merge_sort(Left, SortedLeft),
+      merge_sort(Right, SortedRight),
+      merge_(SortedLeft, SortedRight, Sorted)
+    )
+  ).
