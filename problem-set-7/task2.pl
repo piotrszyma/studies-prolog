@@ -35,48 +35,28 @@ split_second(In, FirstList, SecondList) :-
 
 % Merge sort
 
-merge_sort(Out, Out_) :-
-  freeze(Out, (
-    Out = [],
-    Out_ = []
-  )). 
-
-merge_sort(Out, Out_) :- 
-  freeze(Out, (
-    length(Out, 1),
-    Out_ = Out
-  )).
 
 merge_sort(List, Sorted) :-
   freeze(List, 
     (
-    List = [First|[Second|[]]],
-    freeze(Second, (
-      First > Second ->
-      ( 
-        List = [First|[Second|[]]],
-        Sorted = [Second, First]
-      )
-      ; 
+      List = [_|T] ->
       (
-        List = [First|[Second|[]]],
-        Sorted = [First, Second] 
+        freeze(T,
+          (
+            T = [_|_] ->
+            (
+              split(List, Left, Right),
+              merge_sort(Left, SortedLeft),
+              merge_sort(Right, SortedRight),
+              merge_(SortedLeft, SortedRight, Sorted)
+            );
+            Sorted = List
+          )
+        )
+      );
+      (
+        Sorted = List
       )
-    ))
-  )).
-
- merge_sort(List, Sorted) :- 
-   freeze(List,
-     (
-       length(List, X),
-       X > 2,
-       split(List, Left, Right),
-       merge_sort(Left, SortedLeft),
-       merge_sort(Right, SortedRight),
-       merge_(SortedLeft, SortedRight, Sorted)
-     )
-   ).
-
- ones(L) :-
-  freeze(L, (L=[1|T],ones(T)) ).
+    )
+  ).
 

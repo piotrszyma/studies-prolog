@@ -8,32 +8,29 @@ merge_(FirstList, SecondList, Output) :-
   freeze(FirstList,
     freeze(SecondList,
       (
-        head(FirstList, FirstListHead, FirstListTail),
-        head(SecondList, SecondListHead, SecondListTail),
+        FirstList \= [] ->
         (
-          FirstListHead =< SecondListHead ->
+          SecondList \= [] ->
           (
-            attach(FirstListHead, Output_, Output),
-            merge_(FirstListTail, SecondList, Output_)
-          )
-          ;
-          (
-            attach(SecondListHead, Output_, Output),
-            merge_(FirstList, SecondListTail, Output_)
-          )
-        )
+            head(FirstList, FirstListHead, FirstListTail),
+            head(SecondList, SecondListHead, SecondListTail),
+          
+            (
+              FirstListHead =< SecondListHead ->
+              (
+                attach(FirstListHead, Output_, Output),
+                merge_(FirstListTail, SecondList, Output_)
+              )
+              ;
+              (
+                attach(SecondListHead, Output_, Output),
+                merge_(FirstList, SecondListTail, Output_)
+              )
+            )
+          );
+          Output = FirstList
+        );
+        Output = SecondList
       )
     )
   ), !.
-
-merge_(FirstList, SecondList, Output) :-
-  freeze(FirstList,
-    freeze(SecondList,
-      FirstList = [] ->
-        Output = SecondList;
-        SecondList = [] ->
-          Output = FirstList;
-          false
-      )
-  ).
-
